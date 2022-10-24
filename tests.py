@@ -107,3 +107,16 @@ class CupcakeViewsTestCase(TestCase):
             })
 
             self.assertEqual(Cupcake.query.count(), 2)
+
+
+    # def test_update_cupcake(self):
+    #     with app.test_client() as client:
+    #         url= f"/api/cupcakes/{self.cupcake.id}"
+    #         resp = client.
+
+
+    # def test_delete_cupcake(self):
+    #     with app.test_client() as client:
+    #         url= f"/api/cupcakes/{self.cupcake.id}"
+    #         resp = client.
+    
