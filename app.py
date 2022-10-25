@@ -19,13 +19,12 @@ connect_db(app)
 
 
 @app.route('/')
-def get_html():
+def root():
+    """render homepage"""
     return render_template('index.html')
 
-
-
 @app.route('/api/cupcakes', methods=["GET"])
-def all_cupcakes():
+def list_cupcakes():
     """Get data about all cupcakes."""
     
     all_cupcakes = [cupcake.serialize() for cupcake in Cupcake.query.all()]
@@ -43,7 +42,19 @@ def get_cupcake(cupcake_id):
 def create_cupcake():
     """Create a cupcake with flavor, size, rating and image data from the body of the request."""
 
-    new_cupcake=Cupcake(flavor=request.json['flavor'], size=request.json['size'], rating=request.json['rating'], image=request.json.get('image', None))
+    new_cupcake=Cupcake(flavor=request.json['flavor'], 
+                        size=request.json['size'], 
+                        rating=request.json['rating'], 
+                        image=request.json.get('image', None))
+
+    # === springboard solution======?
+    # data = request.json
+    # cupcake = Cupcake(
+    #     flavor=data['flavor'],
+    #     rating=data['rating'],
+    #     size=data['size'],
+    #     image=data['image'] or None)
+
 
     db.session.add(new_cupcake)
     db.session.commit()
@@ -60,6 +71,7 @@ def update_cupcake(cupcake_id):
     cupcake.rating=request.json.get('rating', cupcake.rating)
     cupcake.image=request.json.get('image', cupcake.image)
 
+    db.session.add(cupcake)
     db.session.commit()
     return jsonify(cupcake=cupcake.serialize())
 
